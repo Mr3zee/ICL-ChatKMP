@@ -1,0 +1,19 @@
+# Use postgres/example user/password credentials
+version: '3.9'
+
+services:
+  postres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: chat_kmp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+        - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"

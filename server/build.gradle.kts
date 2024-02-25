@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
-    alias(libs.plugins.ktor)
     application
 }
 
@@ -13,9 +12,26 @@ application {
 
 dependencies {
     implementation(projects.shared)
+
     implementation(libs.logback)
-    implementation(libs.ktor.server.core)
+    implementation(libs.openai.client)
+    implementation(libs.koin.ktor)
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.kotlin.datetime)
+    implementation(libs.postgres)
+
     implementation(libs.ktor.server.netty)
-    testImplementation(libs.ktor.server.tests)
-    testImplementation(libs.kotlin.test.junit)
+    implementation(libs.ktor.server.cors)
+    implementation(libs.ktor.server.status.pages)
+    implementation(libs.ktor.server.websockets)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.server.serialization.json)
+    implementation(libs.ktor.client.okhttp.legacy)
+}
+
+tasks.named<ProcessResources>("processResources") {
+    from(projectDir) {
+        include("local.properties")
+    }
 }

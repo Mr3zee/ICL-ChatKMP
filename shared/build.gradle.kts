@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -27,7 +28,10 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
+            api(libs.coroutines.core)
+            api(libs.koin.core)
+            api(libs.serialization.core)
+            api(libs.datetime)
         }
     }
 }
