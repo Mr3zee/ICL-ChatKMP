@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "type": "docker-compose-up",
+            "name": "Start Postgres",
+            "files": ["docker-compose.yaml"],
+        },
+    ]
+}

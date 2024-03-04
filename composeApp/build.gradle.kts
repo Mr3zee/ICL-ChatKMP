@@ -15,6 +15,7 @@ kotlin {
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
+                devServer = devServer?.copy(port = 3000)
             }
         }
         binaries.executable()
@@ -43,22 +44,39 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
+        val wasmJsMain by getting
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.coroutines.android)
             implementation(libs.androidx.activity.compose)
+            runtimeOnly(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(projects.shared)
+            implementation(libs.material.kolor)
+            implementation(libs.voyager.screenmodel)
+            implementation(libs.voyager.navigator)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization.json)
         }
         desktopMain.dependencies {
+            implementation(libs.coroutines.swing)
             implementation(compose.desktop.currentOs)
+            runtimeOnly(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+        wasmJsMain.dependencies {
+            runtimeOnly(libs.ktor.client.js)
         }
     }
 }
