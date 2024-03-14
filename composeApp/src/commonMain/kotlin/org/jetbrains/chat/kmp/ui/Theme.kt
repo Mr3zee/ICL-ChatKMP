@@ -35,7 +35,8 @@ private val AppTypography = Typography(
 )
 
 internal enum class SeedColor(val colorName: String, val value: Color) {
-    BASELINE("M3 Baseline", Color(0xFF6750A4)),
+    KOTLIN("Kotlin", Color(0xFF_A861E7)),
+    BASELINE("M3 Baseline", Color(0xFF_6750A4)),
     INDIGO("Indigo", Color(0xFF_3F51B5)),
     BLUE("Blue", Color(0xFF_0061A4)),
     TEAL("Teal", Color(0xFF_009688)),
@@ -47,7 +48,7 @@ internal enum class SeedColor(val colorName: String, val value: Color) {
 }
 
 internal val LocalAppColor = compositionLocalOf {
-    mutableStateOf(SeedColor.TEAL)
+    mutableStateOf(SeedColor.KOTLIN)
 }
 
 @Composable
@@ -55,7 +56,7 @@ internal fun AppTheme(
     content: @Composable () -> Unit
 ) {
     val appColorState = remember {
-        mutableStateOf(SeedColor.TEAL)
+        mutableStateOf(SeedColor.KOTLIN)
     }
     val appColor = appColorState.value
     CompositionLocalProvider(
