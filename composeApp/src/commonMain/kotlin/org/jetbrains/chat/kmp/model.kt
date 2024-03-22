@@ -29,8 +29,22 @@ class AppModel(private val database: DatabaseQueries) : ScreenModel {
 
     val chatName = userId.mapState { it.toString() }
 
-    val chatMessages = chatHistory.combine(lastAssistantMessage) { history, last ->
-        if (last != null) history + last else history
+    val systemMessageInputEnabled = MutableStateFlow(false)
+
+    val systemMessage = MutableStateFlow<ChatKMPMessage?>(null)
+
+    val chatMessages = combine(
+        chatHistory,
+        lastAssistantMessage,
+        systemMessageInputEnabled,
+        systemMessage,
+    ) { history, last, sysEnabled, sysMessage ->
+        when {
+            sysEnabled && sysMessage != null -> listOf(sysMessage)
+            sysEnabled -> emptyList()
+            last != null -> history + last
+            else -> history
+        }
     }.stateIn(emptyList())
 
     val inputDisabled = _inputDisabled.asStateFlow()
@@ -40,7 +54,7 @@ class AppModel(private val database: DatabaseQueries) : ScreenModel {
             launch {
                 apiClient.startSession()
             }
-            
+
             userId.collect { id ->
                 when (id) {
                     null -> {
@@ -86,16 +100,26 @@ class AppModel(private val database: DatabaseQueries) : ScreenModel {
         withLockedInput {
             val userId = userId.value ?: return false
 
-            val userMessage = ChatKMPMessage(
+            val sender = if (systemMessageInputEnabled.value) {
+                Sender.System
+            } else {
+                Sender.User
+            }
+
+            val newMessage = ChatKMPMessage(
                 userId = userId,
                 text = text,
                 timestamp = Clock.System.now(),
-                sender = Sender.User,
+                sender = sender,
             )
 
-            chatHistory.value += userMessage
+            if (systemMessageInputEnabled.value) {
+                systemMessage.value = newMessage
+            } else {
+                chatHistory.value += newMessage
+            }
 
-            apiClient.sendMessage(userMessage).collect { chunk ->
+            apiClient.sendMessage(newMessage).collect { chunk ->
                 val last = lastAssistantMessage.value
                 when {
                     last == null -> {
@@ -141,8 +165,8 @@ class AppModel(private val database: DatabaseQueries) : ScreenModel {
             _inputDisabled.value = false
         }
     }
-    
-    private suspend fun <T> StateFlow<T>.await(value: T) = filter { it == value }.first() 
+
+    private suspend fun <T> StateFlow<T>.await(value: T) = filter { it == value }.first()
 
     override fun onDispose() {
         apiClient.close()

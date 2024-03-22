@@ -20,6 +20,7 @@ fun BottomInput(model: AppModel) {
     val authenticated by model.authenticated.collectAsState()
     var input by remember { mutableStateOf("") }
     val disabled by model.inputDisabled.collectAsState()
+    val sysEnabled by model.systemMessageInputEnabled.collectAsState()
     var error by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
 
@@ -75,10 +76,18 @@ fun BottomInput(model: AppModel) {
             )
         },
         placeholder = {
-            if (disabled) {
-                Text("Input is locked")
-            } else {
-                Text("Start typing...")
+            when {
+                disabled -> {
+                    Text("Input is locked")
+                }
+
+                sysEnabled -> {
+                    Text("Enter new system message...")
+                }
+
+                else -> {
+                    Text("Start typing...")
+                }
             }
         },
         supportingText = {

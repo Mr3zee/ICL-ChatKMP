@@ -26,4 +26,8 @@ class ChatService : KoinComponent {
             messageId
         }
     }
+
+    suspend fun insertOrUpdateSystemMessage(message: ChatKMPMessage) {
+        db.insertOrUpdateSystemMessage(message.userId, message.text, message.timestamp)
+    }
 }

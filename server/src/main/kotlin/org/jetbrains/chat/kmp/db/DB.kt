@@ -74,6 +74,34 @@ class DB {
                 )
             }
     }
+
+    suspend fun insertOrUpdateSystemMessage(userId: Long, text: String, lastTimestamp: Instant) {
+        tx {
+            val noSystemMessage = Tables.Messages
+                .select(Tables.Messages.user)
+                .where {
+                    (Tables.Messages.user eq userId) and (Tables.Messages.role eq MessageRole.System)
+                }.empty()
+
+            if (noSystemMessage) {
+                Tables.Messages.insert {
+                    it[user] = userId
+                    it[message] = text
+                    it[timestamp] = lastTimestamp.toLocalDateTime(TimeZone.UTC)
+                    it[role] = MessageRole.System
+                }
+            } else {
+                Tables.Messages.update(
+                    where = {
+                        (Tables.Messages.user eq userId) and (Tables.Messages.role eq MessageRole.System)
+                    }
+                ) {
+                    it[message] = text
+                    it[timestamp] = lastTimestamp.toLocalDateTime(TimeZone.UTC)
+                }
+            }
+        }
+    }
 }
 
 private fun MessageRole.toSender() = when (this) {

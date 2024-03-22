@@ -8,6 +8,7 @@ import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.LoggingConfig
 import com.aallam.openai.client.OpenAI
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
@@ -33,7 +34,11 @@ class AIService : KoinComponent {
 
     suspend fun postMessage(message: ChatKMPMessage): Flow<ChatKMPMessageChunk> {
         if (message.sender != Sender.User) {
-            error("Can not post message not from a user")
+            if (message.sender != Sender.System) {
+                error("Big bad error")
+            }
+
+            return processSystemMessage(message)
         }
 
         chatService.addMessage(message.copy(timestamp = Clock.System.now()))
@@ -58,6 +63,14 @@ class AIService : KoinComponent {
                     responseMessageId = id
                 }
             }
+    }
+
+    private suspend fun processSystemMessage(message: ChatKMPMessage): Flow<ChatKMPMessageChunk> {
+        chatService.insertOrUpdateSystemMessage(message)
+
+        return flow {
+            emit(ChatKMPMessageChunk("", Clock.System.now(), isLast = true))
+        }
     }
 
     companion object {

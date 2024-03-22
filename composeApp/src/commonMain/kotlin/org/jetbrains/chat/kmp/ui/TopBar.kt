@@ -2,6 +2,7 @@ package org.jetbrains.chat.kmp.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,6 +33,17 @@ fun TopBar(model: AppModel) {
 
         actions = {
             if (authenticated) {
+                IconButton(
+                    onClick = {
+                        model.systemMessageInputEnabled.value = !model.systemMessageInputEnabled.value
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null
+                    )
+                }
+
                 IconButton(
                     onClick = {
                         model.logout()
