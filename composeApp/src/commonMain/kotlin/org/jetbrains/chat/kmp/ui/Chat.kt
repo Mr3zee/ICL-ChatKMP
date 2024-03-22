@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 import org.jetbrains.chat.kmp.AppModel
 import org.jetbrains.chat.kmp.ChatKMPMessage
 import org.jetbrains.chat.kmp.Sender
+import com.mikepenz.markdown.m3.Markdown
+import com.mikepenz.markdown.m3.markdownColor
 
 @Composable
 fun Chat(model: AppModel) {
@@ -86,10 +88,15 @@ fun ColumnScope.Message(message: ChatKMPMessage) {
             .padding(8.dp)
             .fillMaxWidth(0.8f),
     ) {
-        Text(
-            text = message.text,
-            color = if (isUser) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondary,
+        val textColor = if (isUser) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSecondary
+
+        Markdown(
+            content = message.text,
             modifier = Modifier.background(Color.Transparent),
+            colors = markdownColor(
+                text = textColor,
+                codeText = textColor,
+            )
         )
     }
 }

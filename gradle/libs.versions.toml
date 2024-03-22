@@ -28,6 +28,7 @@ postgres = "42.7.2"
 datetime = "0.5.0"
 material-kolor = "1.4.2"
 sqldelght = "2.0.1"
+compose-markdown = "0.13.0"
 
 [libraries]
 # kotlinx
@@ -50,6 +51,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "material-kolor" }
+compose-markdown = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "compose-markdown" }
 
 # voayger
 voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
