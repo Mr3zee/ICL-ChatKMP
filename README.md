@@ -1,5 +1,9 @@
 # ChatKMP
 
+## NOTE: Wasm and desktop are disabled in this version
+To try wasm and desktop checkout to commit prior to sqldelight addition
+Sqldelight does not support wasm, and we didn't add implementation for desktop an the lecture
+
 ![mobile](/.github/images/mobile_screenshot.png)
 ![desktop+web](/.github/images/desktop_web_screenshot.png)
 
