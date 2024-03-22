@@ -27,6 +27,7 @@ exposed = "0.47.0"
 postgres = "42.7.2"
 datetime = "0.5.0"
 material-kolor = "1.4.2"
+sqldelght = "2.0.1"
 
 [libraries]
 # kotlinx
@@ -86,6 +87,10 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 openai-client = { module = "com.aallam.openai:openai-client", version.ref = "openai-client" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 
+# sqldelight
+sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelght" }
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelght" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -93,3 +98,4 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelght" }

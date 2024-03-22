@@ -1,0 +1,13 @@
+CREATE TABLE loggedUser (
+    userId INTEGER PRIMARY KEY NOT NULL
+);
+
+login:
+INSERT INTO loggedUser(userId)
+VALUES (?);
+
+logout:
+DELETE FROM loggedUser WHERE 1=1;
+
+getUser:
+SELECT * FROM loggedUser;

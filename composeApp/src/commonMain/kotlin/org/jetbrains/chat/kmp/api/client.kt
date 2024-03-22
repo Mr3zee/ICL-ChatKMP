@@ -67,9 +67,11 @@ class ApiClient {
     }
 
     suspend fun loadHistory(userId: Long): List<ChatKMPMessage> {
-        return ktorClient.get("/chat/history") {
+        val response = ktorClient.get("/chat/history") {
             parameter("userId", userId)
-        }.body()
+        }
+
+        return response.body()
     }
 
     suspend fun sendMessage(message: ChatKMPMessage): Flow<ChatKMPMessageChunk> {

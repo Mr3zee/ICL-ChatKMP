@@ -7,10 +7,17 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.jetbrains.chat.kmp.api.ApiClient
 
-class AppModel : ScreenModel {
+class AppModel(private val database: DatabaseQueries) : ScreenModel {
     private val apiClient = ApiClient()
 
     private val userId = MutableStateFlow<Long?>(null)
+
+    init {
+        val dbUser = database.getUser().executeAsOneOrNull()
+        if (dbUser != null) {
+            userId.value = dbUser
+        }
+    }
 
     private val chatHistory = MutableStateFlow(emptyList<ChatKMPMessage>())
 
@@ -40,9 +47,14 @@ class AppModel : ScreenModel {
                         chatHistory.value = emptyList()
                         lastAssistantMessage.value = null
                         _inputDisabled.value = false
+
+                        database.logout()
                     }
 
                     else -> {
+                        database.logout()
+                        database.login(id)
+
                         launch {
                             withLockedInput {
                                 chatHistory.value = apiClient.loadHistory(id).sortedBy { it.timestamp }

@@ -11,7 +11,9 @@ import org.jetbrains.exposed.sql.transactions.experimental.suspendedTransactionA
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.dsl.module
 
-val dbModule = module(createdAtStart = true) { single { DB() } }
+val dbModule = module(createdAtStart = true) {
+    single { DB() }
+}
 
 class DB {
     init {

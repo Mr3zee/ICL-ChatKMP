@@ -24,7 +24,7 @@ class AIService : KoinComponent {
         ?: error(
             "Expected 'openai.api.token' property to be present. " +
                     "Please, add it to local.properties file in server directory. " +
-                    "You get get a new token here https://platform.openai.com/api-keys"
+                    "You can get a new token here https://platform.openai.com/api-keys"
         )
 
     private val openAi by lazy {

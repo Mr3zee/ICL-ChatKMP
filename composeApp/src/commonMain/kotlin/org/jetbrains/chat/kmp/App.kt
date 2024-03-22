@@ -13,16 +13,16 @@ import org.jetbrains.chat.kmp.ui.Chat
 import org.jetbrains.chat.kmp.ui.TopBar
 
 @Composable
-fun App() {
+fun App(database: DatabaseQueries) {
     AppTheme {
-        Navigator(AppScreen)
+        Navigator(AppScreen(database))
     }
 }
 
-object AppScreen : Screen {
+class AppScreen(private val database: DatabaseQueries) : Screen {
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { AppModel() }
+        val model = rememberScreenModel { AppModel(database) }
 
         Box(
             modifier = Modifier

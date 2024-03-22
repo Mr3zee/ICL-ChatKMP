@@ -6,20 +6,22 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = devServer?.copy(port = 3000)
-            }
-        }
-        binaries.executable()
-    }
+    // commented out because sqldelight does not support wasmJs
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = devServer?.copy(port = 3000)
+//            }
+//        }
+//        binaries.executable()
+//    }
     
     androidTarget {
         compilations.all {
@@ -44,12 +46,14 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        val wasmJsMain by getting
+        // commented out because sqldelight does not support wasmJs
+//        val wasmJsMain by getting
 
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.coroutines.android)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.sqldelight.android.driver)
             runtimeOnly(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
@@ -74,9 +78,7 @@ kotlin {
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-        }
-        wasmJsMain.dependencies {
-            runtimeOnly(libs.ktor.client.js)
+            implementation(libs.sqldelight.native.driver)
         }
     }
 }
@@ -127,6 +129,15 @@ compose.desktop {
     }
 }
 
-compose.experimental {
-    web.application {}
+// commented out because sqldelight does not support wasmJs
+//compose.experimental {
+//    web.application {}
+//}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("org.jetbrains.chat.kmp")
+        }
+    }
 }

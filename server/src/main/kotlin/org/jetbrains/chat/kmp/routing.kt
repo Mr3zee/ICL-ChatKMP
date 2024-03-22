@@ -45,7 +45,9 @@ fun Routing.appRouting() {
                 while (true) {
                     val message = receiveDeserialized<ChatKMPMessage>()
 
-                    ai.postMessage(message).collect { chunk -> sendSerialized<ChatKMPMessageChunk>(chunk) }
+                    ai.postMessage(message).collect { chunk ->
+                        sendSerialized<ChatKMPMessageChunk>(chunk)
+                    }
                 }
             } catch (e: ClosedReceiveChannelException) {
                 // ignore
