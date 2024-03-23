@@ -36,6 +36,7 @@ If you face any issues, please report them on [GitHub](https://github.com/JetBra
 You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
 
 ## Links:
+- [Presentation, Day 1](.github/ChatKMP,%20ICL%20Lectures%201.pdf)
 - [Kotlin Multiplatform](https://www.jetbrains.com/kotlin-multiplatform/)
 - [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
 - [Kotlin Multiplatform wizard](https://kmp.jetbrains.com/)
