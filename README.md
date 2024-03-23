@@ -65,3 +65,5 @@ You can open the web application by running the `:composeApp:wasmJsBrowserDevelo
 - [DI (Dependency injection) framework - Koin](https://insert-koin.io/)
 - [Database library for server - Exposed](https://github.com/JetBrains/Exposed)
 - [Web framework, HTTP clients and servers - Ktor](https://ktor.io/)
+- [Kotlin OpenAI API](https://github.com/aallam/openai-kotlin)
+- [Gradle (You should be brave enough to read it)](https://docs.gradle.org/current/userguide/userguide.html)
